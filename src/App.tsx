@@ -1,8 +1,15 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom"
+import { Main, Room, NotFound } from "./pages"
+
 function App() {
 	return (
-		<div>
-			<h1>WebRTC</h1>
-		</div>
+		<BrowserRouter>
+			<Routes>
+				<Route path="/" Component={Main} />
+				<Route path="/room/:id" Component={Room} />
+				<Route path="*" Component={NotFound} />
+			</Routes>
+		</BrowserRouter>
 	)
 }
 
