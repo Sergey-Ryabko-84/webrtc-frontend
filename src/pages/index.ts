@@ -1,3 +1,3 @@
-export * from "./Main"
-export * from "./Room"
-export * from "./NotFound"
+export * from "./Main";
+export * from "./Room";
+export * from "./NotFound";
