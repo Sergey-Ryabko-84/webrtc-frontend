@@ -100,6 +100,7 @@ export const useWebRTC = (roomID) => {
     }
 
     socket.on(ACTIONS.ADD_PEER, handlerNewPeer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -139,6 +140,7 @@ export const useWebRTC = (roomID) => {
     };
 
     socket.on(ACTIONS.REMOVE_PEER, handleRemovePeer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const provideMediaRef = useCallback((id, node) => {
