@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { Button, List, ListItem, Typography } from "@mui/material";
-import { nanoid } from "nanoid";
+import { v4 } from "uuid";
 import socket from "../../socket";
 import ACTIONS from "../../socket/actions";
 
 export const Main = () => {
   const navigate = useNavigate();
   const [rooms, updateRooms] = useState([]);
-  const rootNode = useRef();
+  const rootNode = useRef<any>();
 
   useEffect(() => {
     socket.on(ACTIONS.SHARE_ROOMS, ({ rooms = [] }) => {
@@ -19,7 +19,7 @@ export const Main = () => {
   }, []);
 
   return (
-    <div>
+    <div ref={rootNode}>
       <Typography variant="h5" gutterBottom sx={{ mx: 2 }}>
         Available Rooms
       </Typography>
@@ -43,7 +43,7 @@ export const Main = () => {
         variant="contained"
         sx={{ mx: 2 }}
         onClick={() => {
-          navigate(`/room/${nanoid()}`);
+          navigate(`/room/${v4()}`);
         }}>
         Create New Room
       </Button>
