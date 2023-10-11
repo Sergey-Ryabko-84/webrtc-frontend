@@ -86,7 +86,7 @@ export const useWebRTC = (roomID) => {
         }
       };
 
-      localMediaStream.current.gatTracks().forEach((track) => {
+      localMediaStream.current.getTracks().forEach((track) => {
         peerConnections.current[peerID].addTrack(track, localMediaStream.current);
       });
 

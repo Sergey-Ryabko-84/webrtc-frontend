@@ -8,7 +8,7 @@ const ACTIONS = require("./src/socket/actions");
 const PORT = process.env.PORT || 3001;
 
 function getClientRooms() {
-  const { rooms } = io.socket.adapter;
+  const { rooms } = io.sockets.adapter;
 
   return Array.from(rooms.keys());
 }
@@ -17,7 +17,7 @@ function shareRoomsInfo() {
   io.emit(ACTIONS.SHARE_ROOMS, { rooms: getClientRooms() });
 }
 
-io.on("connections", (socket) => {
+io.on("connection", (socket) => {
   shareRoomsInfo();
 
   socket.on(ACTIONS.JOIN, (config) => {
@@ -28,7 +28,7 @@ io.on("connections", (socket) => {
       console.warn(`Already joined to ${roomID}`);
     }
 
-    const clients = Array.from(io.socket.adapter.rooms.get(roomID) || []);
+    const clients = Array.from(io.sockets.adapter.rooms.get(roomID) || []);
 
     clients.forEach((clientID) => {
       io.to(clientID).emit(ACTIONS.ADD_PEER, {
@@ -50,7 +50,7 @@ io.on("connections", (socket) => {
     const { rooms } = socket;
 
     Array.from(rooms).forEach((roomID) => {
-      const clients = Array.from(io.socket.adapter.rooms.get(roomID) || []);
+      const clients = Array.from(io.sockets.adapter.rooms.get(roomID) || []);
 
       clients.forEach((clientID) => {
         io.to(clientID).emit(ACTIONS.REMOVE_PEER, { peerID: socket.id });
