@@ -23,6 +23,7 @@ export const useWebRTC = (roomID) => {
         return list;
       }, cb);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [clients, updateClients]
   );
 
@@ -54,6 +55,7 @@ export const useWebRTC = (roomID) => {
 
       socket.emit(ACTIONS.LEAVE);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roomID]);
 
   useEffect(() => {
