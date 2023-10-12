@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef } from "react";
-// import freeice from "freeice";
 import { useStateWithCallback } from "./useStateWithCallback";
 import socket from "../socket";
 import ACTIONS from "../socket/actions";
@@ -24,8 +23,7 @@ export const useWebRTC = (roomID) => {
         return list;
       }, cb);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [clients, updateClients]
+    [updateClients]
   );
 
   useEffect(() => {
@@ -56,8 +54,7 @@ export const useWebRTC = (roomID) => {
 
       socket.emit(ACTIONS.LEAVE);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [roomID]);
+  }, [addNewClient, roomID]);
 
   useEffect(() => {
     async function handlerNewPeer({ peerID, createOffer }) {
@@ -67,7 +64,6 @@ export const useWebRTC = (roomID) => {
 
       peerConnections.current[peerID] = new RTCPeerConnection({
         iceServers: iceServers,
-        // iceServers: freeice(),
       });
 
       peerConnections.current[peerID].onicecandidate = (event) => {
@@ -102,8 +98,7 @@ export const useWebRTC = (roomID) => {
     }
 
     socket.on(ACTIONS.ADD_PEER, handlerNewPeer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [addNewClient]);
 
   useEffect(() => {
     async function setRemoteMedia({ peerID, sessionDescription: remoteDescription }) {
@@ -142,8 +137,7 @@ export const useWebRTC = (roomID) => {
     };
 
     socket.on(ACTIONS.REMOVE_PEER, handleRemovePeer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [updateClients]);
 
   const provideMediaRef = useCallback((id, node) => {
     peerMediaElements.current[id] = node;
