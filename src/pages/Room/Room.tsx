@@ -11,9 +11,9 @@ export const Room = () => {
 
   return (
     <>
-      <Box sx={{ height: "85vh", display: "flex", flexWrap: "wrap" }}>
+      <Box sx={{ height: "85vh", display: "flex", flexWrap: "wrap", gap: 2 }}>
         {clients.map((clientID: any) => (
-          <Box key={clientID} sx={{ width: "45%" }}>
+          <Box key={clientID} sx={{ width: "48%" }}>
             <CardMedia
               component="video"
               ref={(instance) => {

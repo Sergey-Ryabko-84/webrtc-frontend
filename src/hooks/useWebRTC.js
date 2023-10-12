@@ -49,9 +49,7 @@ export const useWebRTC = (roomID) => {
       .catch((e) => console.log("Error getting userMedia:", e));
 
     return () => {
-      if (localMediaStream.current) {
-        localMediaStream.current.getTracks().forEach((track) => track.stop());
-      }
+      localMediaStream.current?.getTracks().forEach((track) => track.stop());
 
       socket.emit(ACTIONS.LEAVE);
     };
@@ -80,8 +78,24 @@ export const useWebRTC = (roomID) => {
 
         if (tracksNumber === 2) {
           // video & audio tracks received
+          tracksNumber = 0;
           addNewClient(peerID, () => {
-            peerMediaElements.current[peerID].srcObject = remoteStream;
+            if (peerMediaElements.current[peerID]) {
+              peerMediaElements.current[peerID].srcObject = remoteStream;
+            } else {
+              // FIX LONG RENDER IN CASE OF MANY CLIENTS
+              let settled = false;
+              const interval = setInterval(() => {
+                if (peerMediaElements.current[peerID]) {
+                  peerMediaElements.current[peerID].srcObject = remoteStream;
+                  settled = true;
+                }
+
+                if (settled) {
+                  clearInterval(interval);
+                }
+              }, 1000);
+            }
           });
         }
       };
@@ -100,6 +114,10 @@ export const useWebRTC = (roomID) => {
     }
 
     socket.on(ACTIONS.ADD_PEER, handlerNewPeer);
+
+    return () => {
+      socket.off(ACTIONS.ADD_PEER);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -130,8 +148,12 @@ export const useWebRTC = (roomID) => {
 
   useEffect(() => {
     socket.on(ACTIONS.ICE_CANDIDATE, ({ peerID, iceCandidate }) => {
-      peerConnections.current[peerID].addIceCandidate(new RTCIceCandidate(iceCandidate));
+      peerConnections.current[peerID]?.addIceCandidate(new RTCIceCandidate(iceCandidate));
     });
+
+    return () => {
+      socket.off(ACTIONS.ICE_CANDIDATE);
+    };
   }, []);
 
   useEffect(() => {
@@ -147,6 +169,10 @@ export const useWebRTC = (roomID) => {
     };
 
     socket.on(ACTIONS.REMOVE_PEER, handleRemovePeer);
+
+    return () => {
+      socket.off(ACTIONS.REMOVE_PEER);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
