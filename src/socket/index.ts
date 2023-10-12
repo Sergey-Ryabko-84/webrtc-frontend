@@ -7,9 +7,6 @@ const options = {
   transports: ["websocket"],
 };
 
-const socket = io(
-  `${process.env.REACT_APP_BECKEND_URL}:${process.env.REACT_APP_BECKEND_PORT}`,
-  options
-);
+const socket = io(`${process.env.REACT_APP_BECKEND_URL}`, options);
 
 export default socket;
