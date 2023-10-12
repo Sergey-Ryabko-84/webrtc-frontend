@@ -105,9 +105,7 @@ export const useWebRTC = (roomID) => {
 
   useEffect(() => {
     async function setRemoteMedia({ peerID, sessionDescription: remoteDescription }) {
-      await peerConnections.current[peerID].setRemoteDescription(
-        new RTCSessionDescription(remoteDescription)
-      );
+      await peerConnections.current[peerID].setRemoteDescription(new RTCSessionDescription());
 
       if (remoteDescription.type === "offer") {
         const answer = await peerConnections.current[peerID].createAnswer();

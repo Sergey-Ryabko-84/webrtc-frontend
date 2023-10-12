@@ -13,7 +13,7 @@ export const Room = () => {
     <>
       <Box sx={{ height: "85vh", display: "flex", flexWrap: "wrap" }}>
         {clients.map((clientID: any) => (
-          <Box key={clientID} sx={{ width: "50%" }}>
+          <Box key={clientID} sx={{ width: "45%" }}>
             <CardMedia
               component="video"
               ref={(instance) => {
@@ -22,7 +22,13 @@ export const Room = () => {
               autoPlay
               playsInline
               muted={clientID === LOCAL_VIDEO}
-              sx={{ width: "100%", borderRadius: 2, m: 1, transform: "scaleX(-1)" }}
+              sx={{
+                width: "100%",
+                borderRadius: 2,
+                m: 1,
+                transform: "scaleX(-1)",
+                border: `3px solid #1976d2`,
+              }}
             />
           </Box>
         ))}
