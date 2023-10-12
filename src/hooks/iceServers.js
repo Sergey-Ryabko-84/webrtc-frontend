@@ -234,9 +234,6 @@ const iceServers = [
   { url: "stun:stun.iptel.org" },
   { url: "stun:stun.voxgratia.org" },
   { url: "stun:stun.xten.com" },
-
-  { url: "turn:turn01.hubl.in?transport=udp" },
-  { url: "turn:turn02.hubl.in?transport=tcp" },
   {
     url: "turn:turn.bistri.com:80",
     credential: "homeo",
