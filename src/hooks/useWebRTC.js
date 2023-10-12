@@ -23,7 +23,8 @@ export const useWebRTC = (roomID) => {
         return list;
       }, cb);
     },
-    [updateClients]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [clients, updateClients]
   );
 
   useEffect(() => {
@@ -54,7 +55,8 @@ export const useWebRTC = (roomID) => {
 
       socket.emit(ACTIONS.LEAVE);
     };
-  }, [addNewClient, roomID]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [roomID]);
 
   useEffect(() => {
     async function handlerNewPeer({ peerID, createOffer }) {
@@ -98,7 +100,8 @@ export const useWebRTC = (roomID) => {
     }
 
     socket.on(ACTIONS.ADD_PEER, handlerNewPeer);
-  }, [addNewClient]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     async function setRemoteMedia({ peerID, sessionDescription: remoteDescription }) {
@@ -137,7 +140,8 @@ export const useWebRTC = (roomID) => {
     };
 
     socket.on(ACTIONS.REMOVE_PEER, handleRemovePeer);
-  }, [updateClients]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const provideMediaRef = useCallback((id, node) => {
     peerMediaElements.current[id] = node;
