@@ -31,7 +31,8 @@ export const useWebRTC = (roomID) => {
     async function startCapture() {
       localMediaStream.current = await navigator.mediaDevices.getUserMedia({
         audio: true,
-        video: true, // video: { width: 480 },
+        video: { width: 1280, height: 720 },
+        // video: true,
       });
 
       addNewClient(LOCAL_VIDEO, () => {
